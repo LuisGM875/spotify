@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Inicio App</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="bg-black">
+  <div class="container">
+    <div id="loggedin">
+      <section class="bg-gradient-to-r from-green-400 from-10% via-green-500 via-30% to-green-700 to-90%">
+        <div class="px-10 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
+          <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
+            <span class="inline-flex items-center">
+              <span class="mr-4">TOP SPOTIFY MUSIC AND PLAYLIST</span>
+              <img src="spotify-icons-logos/spotify-icons-logos/icons/02_CMYK/02_PNG/Spotify_Icon_CMYK_Black.png" alt="logo" width="120px" class="ml-4">
+            </span>
+          </h1>
+          <div class="flex items-center justify-center mt-3">
+          </div>
+          <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">¡Bienvenido a nuestra página de creación de playlists y descubrimiento de artistas de Spotify! Nuestra página te permite crear playlists personalizadas, te proporcionamos información actualizada sobre los artistas que más escuchas en Spotify</p>
+          <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+            <a href="http://localhost:8888/login" class="bg-gradient-to-bl inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg from-blue-500 to-blue-800 hover:from-blue-900 hover:to-blue-800 focus:ring-4 focus:ring-blue-300">
+              Comienza aquí
+              <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </a>
+            <button class="bg-gradient-to-bl inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg from-blue-500 to-blue-800 hover:from-blue-900 hover:to-blue-800 focus:ring-4 focus:ring-blue-300" id="obtain-new-token">Obtener nuevo token</button>
+            <div id="user-profile"></div>
+            <div id="oauth"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+    <footer class="fixed bottom-0 left-0 z-20 w-full p-4 bg-white border-t border-gray-200 shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-gray-800 dark:border-gray-600">
+      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 Ejemplo Spotify. All Rights Reserved.</span>
+      <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+        <li>
+          <a href="https://developer.spotify.com/terms" class="mr-4 hover:underline md:mr-6">About</a>
+        </li>
+        <li>
+          <a href="https://www.spotify.com/mx/legal/privacy-policy/" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
+        </li>
+      </ul>
+    </footer>
+
+    <script id="oauth-template" type="text/x-handlebars-template">
+      <h2>oAuth info</h2>
+      <dl class="dl-horizontal">
+        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
+        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}</dd>
+      </dl>
+
+    </script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script>
+      (function() {
+        function getHashParams() {
+          var hashParams = {};
+          var e, r = /([^&;=]+)=?([^&;]*)/g,
+                  q = window.location.hash.substring(1);
+          while ( e = r.exec(q)) {
+            hashParams[e[1]] = decodeURIComponent(e[2]);
+          }
+          return hashParams;
+        }
+
+        let userProfileSource = document.getElementById('user-profile-template').innerHTML,
+                userProfileTemplate = Handlebars.compile(userProfileSource),
+                userProfilePlaceholder = document.getElementById('user-profile');
+
+        let oauthSource = document.getElementById('oauth-template').innerHTML,
+                oauthTemplate = Handlebars.compile(oauthSource),
+                oauthPlaceholder = document.getElementById('oauth');
+
+        let params = getHashParams();
+
+        let access_token = params.access_token,
+                refresh_token = params.refresh_token,
+                error = params.error;
+
+        if (error) {
+          alert('There was an error during the authentication');
+        } else {
+          if (access_token) {
+            // render oauth info
+            oauthPlaceholder.innerHTML = oauthTemplate({
+              access_token: access_token,
+              refresh_token: refresh_token
+            });
+
+            $.ajax({
+              url: 'https://api.spotify.com/v1/me',
+              headers: {
+                'Authorization': 'Bearer ' + access_token
+              },
+              success: function(response) {
+                userProfilePlaceholder.innerHTML = userProfileTemplate(response);
+
+                $('#login').hide();
+                $('#loggedin').show();
+              }
+            });
+          } else {
+            // render initial screen
+            $('#login').show();
+            $('#loggedin').hide();
+          }
+
+          document.getElementById('obtain-new-token').addEventListener('click', function() {
+            $.ajax({
+              url: '/refresh_token',
+              data: {
+                'refresh_token': refresh_token
+              }
+            }).done(function(data) {
+              access_token = data.access_token;
+              oauthPlaceholder.innerHTML = oauthTemplate({
+                access_token: access_token,
+                refresh_token: refresh_token
+              });
+            });
+          }, false);
+        }
+      })();
+    </script>
+
+  </body>
+</html>
+
