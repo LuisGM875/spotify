@@ -78,7 +78,7 @@ app.get('/callback', function(req, res) {
           let musics = {
             url: 'https://api.spotify.com/v1/me/top/tracks',
             headers: { 'Authorization': 'Bearer ' + access_token },
-            qs: { 'time_range': 'medium_term', 'limit': 50,'offset': 5 },
+            qs: { 'time_range': 'medium_term', 'limit': 50},
             json: true
           };
           request.get(musics, function(error, response, body) {
@@ -92,7 +92,7 @@ app.get('/callback', function(req, res) {
                 top_tracks: topTracks,
               }));
             } else {
-              res.redirect('/#' +
+              res.redirect('/' +
                   querystring.stringify({
                     error: 'token_invalido'
                   }));
@@ -100,9 +100,9 @@ app.get('/callback', function(req, res) {
           });
         });
       } else {
-        res.redirect('/#' +
+        res.redirect('/' +
             querystring.stringify({
-              error: 'token_invalido'
+              error: 'usuario_no-Autorizado'
             }));
       }
     });

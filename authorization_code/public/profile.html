@@ -7,6 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Top Spotify</title>
   <link rel="stylesheet" href="styles.css">
+  <link href="https://cdn.tailwindcss.com/3.3.2/tailwind.min.css" rel="stylesheet">
+
 </head>
 <body>
 <section>
@@ -22,25 +24,26 @@
   </nav>
 </section>
 
-<section>
-  <div class="flex justify-center items-center bg-black">
-    <div class="border rounded-lg rounded-l-lg bg-white">
+<section class="bg-black">
+  <br>
+  <div class="flex justify-center items-center">
+    <br>
+    <div class="border rounded-lg rounded-l-lg bg-white my-4 px-4 py-2">
       <br>
-        <p class="text-black text-center">
-          <p class="text-black text-center">Tus canciones favoritas se componen de
-            <span id="totalTiempo" class="text-black">
-            </span>
-          <br>
-        </p>
-
+      <p class="text-black text-center">
+        Tus canciones favoritas se componen de
+        <span id="totalTiempo" class="text-black"></span>
+        <br>
+      </p>
     </div>
     <br>
   </div>
   <br>
 </section>
-
-<div class="flex justify-center items-center">
-  <p class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
+<section class="bg-gradient-to-r from-green-700 from-10% via-green-600 via-30% to-green-400 to-90% ">
+  <br>
+<div class="flex justify-center items-center mb-4">
+  <p class="px-4 py-2 text-sm font-medium text-gray-400 bg-white border border-gray-200 rounded-l-lg focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
     Top Canciones
   </p>
   <button id="crear" type="button" class="flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
@@ -50,155 +53,36 @@
     </svg>
     <span> Importar playlist aquí</span>
   </button>
-
 </div>
+
 <div class="flex justify-center items-center">
-<p class="md:text-1/3xl text-gray-500">Para importar la playlist es necesario tener la aplicacion de spotify abrierta con la cuenta de la persona</p>
-</div>
-<br>
-<div class="flex justify-center items-center">
-  <p class="">
-    Que gran gusto tienes, estas son tus 50 canciones mas escuchadas:
-  </p>
+  <p class="md:text-1/3xl text-black hover:to-blue-700">Para importar la playlist es necesario tener la aplicacion de spotify abierta con la cuenta de la persona</p>
 </div>
 
-<div id="contenedorCanciones" class="bg-green-400"></div>
 <br>
+</section>
+<section class="bg-gradient-to-r from-green-700 from-10% via-green-600 via-30% to-green-400 to-90% ">
+  <div class="p-4">
+    <p class="text-center font-bold mb-4">Nombres de las canciones de tu top</p>
+    <div id="nombres" class="text-center text-black inline-block p-2 border rounded bg-black mb-4 rounded-r-md rounded-l-lg">
+      <br>
+    </div>
+  </div>
+</section>
+<section class="bg-black">
+    <br>
+    <div class="flex justify-center items-center mb-2">
+      <p class="mb-2 text-white">Que gran gusto tienes, estas son tus 50 canciones mas escuchadas durante los ultimos 6 meses</p>
+      <br>
+    </div>
+    <br>
+      <h1 class="text-white lg:text-xl flex items-center justify-center">Informacion</h1>
+    <br>
+    <div id="contenedorCanciones" class=""></div>
+    <br>
+</section>
+<script src="script.js">
 
-<script>
-  (function() {
-    function getHashParams() {
-      let hashParams = {};
-      let e, r = /([^&;=]+)=?([^&;]*)/g,
-              q = window.location.hash.substring(1);
-      while (e = r.exec(q)) {
-        hashParams[e[1]] = decodeURIComponent(e[2]);
-      }
-      return hashParams;
-    }
-
-    let params = getHashParams();
-    let access_token = params.access_token
-    //console.log(access_token)
-    let topCanciones = JSON.parse(params.top_tracks);
-    let contenedor = document.getElementById('contenedorCanciones');
-    //console.log(topCanciones)
-    let MusicaTiempo = document.getElementById('totalTiempo');
-    let compararMusica=0;
-    let artistaCuenta = {};
-
-    for (let i = 0; i < topCanciones.length; i++) {
-      let cancion = topCanciones[i];
-      let album = cancion.album;
-      let artistas = cancion.artists;
-      let duracionMs = cancion.duration_ms;
-      let convertirMin = Math.floor(duracionMs / 60000);
-      let duracionSec = Math.floor((duracionMs % 60000) / 1000);
-      compararMusica+=convertirMin*60+duracionSec
-
-      for (let j = 0; j < artistas.length; j++) {
-        let artist = artistas[j].name;
-        if (artistaCuenta[artist]) {
-          artistaCuenta[artist]++;
-        } else {
-          artistaCuenta[artist] = 1;
-        }
-      }
-
-      let cancionImp = document.createElement('div');
-      cancionImp.innerHTML = `
-          <div class="inline-block flex items-center justify-center space-x-8 max-w-sm rounded overflow-hidden shadow-lg">
-          <div class="bg-green-600 inline-block flex items-center justify-center space-x-8 max-w-sm rounded overflow-hidden shadow-lg border rounded-l-lg rounded-lg ">
-            <div class="flex-shrink-0 w-48 h-48 bg-gray-400 rounded overflow-hidden mr-4">
-              <div class="flex items-center justify-center h-full mr-4">
-              <p class="mr-4"></p>
-                <p class="mr-4">${i+1}</p>
-                <img src="${album.images[0].url}" alt="Album Art" class="object-contain max-h-full" width="130px">
-              </div>
-            </div>
-            <div class="space-y-4 text-center mr-4">
-              <h2 class="">${cancion.name}</h2>
-              <p>Artistas: ${artistas.map(artist => artist.name).join(', ')}</p>
-              <p>Duración: ${convertirMin} minutos con ${duracionSec.toString().padStart(2, '0')} segundos</p>
-              <audio src="${cancion.preview_url}" controls class="text-center justify-center items-center"></audio>
-              <br>
-            </div>
-            <img src="spotify-icons-logos/spotify-icons-logos/icons/02_CMYK/02_PNG/Spotify_Icon_CMYK_Black.png" alt="logo" width="40px" class="mr-4">
-            </div>
-          </div>
-        <br>
-        `;
-      contenedor.appendChild(cancionImp);
-    }
-
-    let total= document.createElement('p')
-    let totalTiempo=Math.floor(compararMusica/60)
-    let totalSec= compararMusica%60
-    total.innerText=`${totalTiempo} minutos con ${totalSec} segundos`
-    MusicaTiempo.appendChild(total)
-
-    let ArtistaEscuchado = '';
-    let cuenta = 0;
-    for (let artist in artistaCuenta) {
-      if (artistaCuenta[artist] > cuenta) {
-        cuenta = artistaCuenta[artist];
-        ArtistaEscuchado = artist;
-      }
-    }
-
-    let mostListened = document.createElement('p');
-    mostListened.innerText = `\nArtista más escuchado por ti:
-    ${ArtistaEscuchado} con ${cuenta} canciones escuchadas\n`;
-
-    MusicaTiempo.appendChild(mostListened);
-
-    let imgEscuchado=document.createElement('div');
-    imgEscuchado.innerHTML= `
-    <div class="flex items-center justify-center h-full">
-        <img src="${topCanciones[0].album.images[0].url}" alt="Artista Album" class="flex items-center justify-center h-full" width="160px">
-    </div>`
-    MusicaTiempo.appendChild(imgEscuchado)
-
-    const token = access_token;
-
-    async function fetchWebApi(endpoint, method, body) {
-      const res = await fetch(`https://api.spotify.com/${endpoint}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        method,
-        body: JSON.stringify(body)
-      });
-      return await res.json();
-    }
-
-    const cancionUri = [];
-
-    for (let i = 0; i < topCanciones.length; i++) {
-      const cancionAgregar = topCanciones[i];
-      const uri = cancionAgregar.uri;
-      cancionUri.push(uri);
-    }
-
-    async function createPlaylist(tracksUri) {
-      const {id: user_id} = await fetchWebApi('v1/me', 'GET')
-
-      const playlist = await fetchWebApi(
-              `v1/users/${user_id}/playlists`, 'POST', {
-                "name": "Sonidos de identidad - explorando mis melodías",
-                "description": "50 canciones cuidadosamente seleccionadas por ti, un increíble recorrido musical con la forma en que cada uno resuena en el mundo, tus melodías vibrantes hasta ritmos magicos, las canciones capturan la esencia de quiénes somos y expresamos a través del sonido ¡Déjate llevar por tu increíble selección musical y déjate envolver por tu propia melodía!",
-                "public": false
-              })
-      await fetchWebApi(
-              `v1/playlists/${playlist.id}/tracks?uris=${tracksUri.join(',')}`,
-              'POST'
-      );
-      return playlist;
-    }
-    document.getElementById('crear').addEventListener('click', async () => {
-      const createdPlaylist = await createPlaylist(cancionUri);
-    });
-  })()
 </script>
 </body>
 </html>

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body class="bg-black">
+
   <div class="container">
     <div id="loggedin">
       <section class="bg-gradient-to-r from-green-400 from-10% via-green-500 via-30% to-green-700 to-90%">
@@ -27,7 +28,7 @@
               Comienza aquí
               <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </a>
-            <button class="bg-gradient-to-bl inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg from-blue-500 to-blue-800 hover:from-blue-900 hover:to-blue-800 focus:ring-4 focus:ring-blue-300" id="obtain-new-token">Obtener nuevo token</button>
+
             <div id="user-profile"></div>
             <div id="oauth"></div>
           </div>
@@ -53,7 +54,7 @@
         <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
         <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}</dd>
       </dl>
-
+      <button class="bg-gradient-to-bl inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg from-blue-500 to-blue-800 hover:from-blue-900 hover:to-blue-800 focus:ring-4 focus:ring-blue-300" id="obtain-new-token">Obtener nuevo token</button>
     </script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
@@ -107,7 +108,6 @@
               }
             });
           } else {
-            // render initial screen
             $('#login').show();
             $('#loggedin').hide();
           }
