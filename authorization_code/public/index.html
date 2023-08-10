@@ -51,7 +51,7 @@
     <script id="oauth-template" type="text/x-handlebars-template">
       <h2>oAuth info</h2>
       <dl class="dl-horizontal">
-        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
+        <dt>Access token</dt><dd class="text-overflow">{{llave}}</dd>
         <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}</dd>
       </dl>
       <button class="bg-gradient-to-bl inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg from-blue-500 to-blue-800 hover:from-blue-900 hover:to-blue-800 focus:ring-4 focus:ring-blue-300" id="obtain-new-token">Obtener nuevo token</button>
@@ -81,14 +81,14 @@
 
         let params = getHashParams();
 
-        let access_token = params.access_token,
+        let llave = params.access_token,
                 refresh_token = params.refresh_token,
                 error = params.error;
 
         if (error) {
-          alert('There was an error during the authentication');
+          alert('Sesion expiro');
         } else {
-          if (access_token) {
+          if (llave) {
             // render oauth info
             oauthPlaceholder.innerHTML = oauthTemplate({
               access_token: access_token,

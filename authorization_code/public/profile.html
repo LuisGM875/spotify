@@ -7,8 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Top Spotify</title>
   <link rel="stylesheet" href="styles.css">
-  <link href="https://cdn.tailwindcss.com/3.3.2/tailwind.min.css" rel="stylesheet">
-
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
 </head>
 <body>
 <section>
@@ -18,11 +17,12 @@
       <p class="text-black font-snas text-lg text-2xl">Tus canciones Spotify</p>
       <button class="bg-white border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 hover:bg-gray-400 ">
         <img src="spotify-icons-logos/spotify-icons-logos/icons/02_CMYK/02_PNG/Spotify_Icon_CMYK_Black.png" alt="logo" width="20px" class="mr-4">
-        <a href="/logout" class="bg-blue-500 text-black py-1 px-2 rounded-lg">Cerrar sesión</a>
+        <a href="/logout" class="bg-blue-500 text-black py-1 px-2 rounded-lg" id="logout">Cerrar sesión</a>
       </button>
     </div>
   </nav>
 </section>
+
 
 <section class="bg-black">
   <br>
@@ -44,7 +44,7 @@
   <br>
 <div class="flex justify-center items-center mb-4">
   <p class="px-4 py-2 text-sm font-medium text-gray-400 bg-white border border-gray-200 rounded-l-lg focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
-    Top Canciones
+    Agrega aquí tu playlist a Spotify
   </p>
   <button id="crear" type="button" class="flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
     <svg class="download-icon mr-4" width="10" height="10" viewBox="0 0 18 22" fill="#000000" xmlns="http://www.w3.org/2000/svg">
@@ -53,14 +53,13 @@
     </svg>
     <span> Importar playlist aquí</span>
   </button>
-</div>
 
-<div class="flex justify-center items-center">
-  <p class="md:text-1/3xl text-black hover:to-blue-700">Para importar la playlist es necesario tener la aplicacion de spotify abierta con la cuenta de la persona</p>
+  <button id=""></button>
 </div>
 
 <br>
 </section>
+<div class="bg-gradient-to-r from-green-700 from-10% via-green-600 via-30% to-green-400 to-90% ">
 <section class="bg-gradient-to-r from-green-700 from-10% via-green-600 via-30% to-green-400 to-90% ">
   <div class="p-4">
     <p class="text-center font-bold mb-4">Nombres de las canciones de tu top</p>
@@ -69,7 +68,8 @@
     </div>
   </div>
 </section>
-<section class="bg-black">
+
+<section class="bg-black h-screen flex flex-col justify-center items-center">
     <br>
     <div class="flex justify-center items-center mb-2">
       <p class="mb-2 text-white">Que gran gusto tienes, estas son tus 50 canciones mas escuchadas durante los ultimos 6 meses</p>
@@ -78,11 +78,18 @@
     <br>
       <h1 class="text-white lg:text-xl flex items-center justify-center">Informacion</h1>
     <br>
-    <div id="contenedorCanciones" class=""></div>
+    <table id="contenedorCanciones" class=""></table>
     <br>
 </section>
-<script src="script.js">
+</div>
+<section class="bg-black">
+  <h1 class="text-white lg:text-xl flex items-center justify-center">Esta es la composicion de tu canciones</h1>
+  <br>
+  <br>
+  <br>
+</section>
 
-</script>
+<script src="codigos/clases/Analizador.js"></script>
+<script src="codigos/script.js"></script>
 </body>
 </html>
